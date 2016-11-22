@@ -1,0 +1,35 @@
+{
+  "name": "fillo",
+  "version": "1.0.0",
+  "description": "Weblab GraphQL API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weblabhq/fillo.git"
+  },
+  "keywords": [
+    "weblab",
+    "microservice",
+    "graphql",
+    "api",
+    "worker"
+  ],
+  "author": "Cristian Guraliuc <cristi@weblab.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/weblabhq/fillo/issues"
+  },
+  "homepage": "https://github.com/weblabhq/fillo#readme",
+  "dependencies": {
+    "dotenv": "2.0.0",
+    "express": "4.14.0",
+    "express-graphql": "0.6.1",
+    "graphql": "0.8.2",
+    "mongoose": "4.6.8",
+    "pino": "3.0.1"
+  }
+}
