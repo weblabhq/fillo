@@ -3,7 +3,7 @@
  */
 
 const gql = require('graphql')
-const types = require('.')
+const PlanType = require('./plan.type')
 
 module.exports = new gql.GraphQLObjectType({
   name: 'User',
@@ -23,7 +23,7 @@ module.exports = new gql.GraphQLObjectType({
         description: 'The email of the user'
       },
       plan: {
-        type: types.PlanType,
+        type: PlanType,
         description: 'The user\'s current plan'
       },
       active: {

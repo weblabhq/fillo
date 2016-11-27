@@ -1,4 +1,6 @@
-'use strict'
+/**
+ * @module models/user.models.js
+ */
 
 // Dependencies
 const mongoose = require('mongoose')

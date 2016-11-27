@@ -11,7 +11,9 @@ const schema = new gql.GraphQLSchema({
     description: 'The root query description',
     fields: {
       user: queries.UserQuery,
-      users: queries.UsersQuery
+      users: queries.UsersQuery,
+      containerEvent: queries.ContainerEventQuery,
+      containerEvents: queries.ContainerEventsQuery
     }
   })
 })

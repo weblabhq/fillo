@@ -8,7 +8,7 @@ const UserModel = require('../../models/user.model')
 
 const query = {
   type: UserType,
-  description: 'Get info for a single user',
+  description: 'Get details for a single user',
   args: {
     id: {
       name: 'The user id',
