@@ -26,7 +26,7 @@ $ npm test
 
 #### Linter
 
-We're using ESLint with Standard config
+We're using [ESLint](http://eslint.org/) with [Standard](https://github.com/feross/eslint-config-standard) config
 
 ```
 $ npm run lint
