@@ -1,3 +1,9 @@
 machine:
   node:
     version: 6.9.1
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - ./bin/deploy.sh
