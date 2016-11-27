@@ -7,7 +7,7 @@ SERVICE_NAME="weblab/fillo"
 DOCKER_REGISTRY="141759028186.dkr.ecr.us-east-1.amazonaws.com/$SERVICE_NAME"
 
 # Get Docker Registry login token
-eval "$(aws ecr get-login)"
+eval "$(aws ecr get-login --region us-east-1)"
 
 # Get new version
 SERVICE_VERSION=`node -e 'console.log(require("./package.json").version)'`
