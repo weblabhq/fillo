@@ -22,7 +22,7 @@ docker tag $SERVICE_NAME:latest $DOCKER_REGISTRY:$SERVICE_VERSION
 docker push $DOCKER_REGISTRY:$SERVICE_VERSION
 
 # Deploy to servers
-servers=$(echo $SERVERS | tr ':' "\n")
+IFS=':'; servers=($SERVERS)
 for server in "${servers[@]}"
 do
   ssh ec2-user@$server << EOF
