@@ -4,8 +4,9 @@
   "description": "Weblab GraphQL API",
   "main": "server.js",
   "scripts": {
+    "lint": "node_modules/.bin/eslint .",
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",
@@ -31,5 +32,11 @@
     "graphql": "0.8.2",
     "mongoose": "4.6.8",
     "pino": "3.0.1"
+  },
+  "devDependencies": {
+    "eslint": "3.11.0",
+    "eslint-config-standard": "6.2.1",
+    "eslint-plugin-promise": "3.4.0",
+    "eslint-plugin-standard": "2.0.1"
   }
 }
