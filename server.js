@@ -2,7 +2,9 @@
  * @module server.js
  */
 
-require('dotenv').config()
+require('dotenv').config({
+  silent: process.env.NODE_ENV === 'production'
+})
 
 // Deendecies
 const express = require('express')
