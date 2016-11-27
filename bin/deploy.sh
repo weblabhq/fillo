@@ -26,21 +26,20 @@ IFS=':'; servers=($SERVERS)
 for server in "${servers[@]}"
 do
   ssh ec2-user@$server << EOF
-# Get AWS ECR login token
-eval "$(aws ecr get-login --region us-east-1)"
-# Get machine ip
-IP=`/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
-# Set container name
-CONTAINER_NAME=`fillo`
-docker pull $DOCKER_REGISTRY:$SERVICE_VERSION
-docker stop \$CONTAINER_NAME
-docker rm -f
-docker run -d \
-  --restart=always \
-  -e MONGO_URI=$MONGO_URI \
-  -p 5002:3000 \
-  --name \$CONTAINER_NAME \
-  -e DOCKER_HOST=tcp://\$IP:4000 \
-  $DOCKER_REGISTRY:$SERVICE_VERSION
+
+    # Get AWS ECR login token
+    eval "\$(aws ecr get-login --region us-east-1)"
+    # Set container name
+    CONTAINER_NAME=fillo
+    docker pull $DOCKER_REGISTRY:$SERVICE_VERSION
+    docker stop \$CONTAINER_NAME
+    docker rm -f \$CONTAINER_NAME
+    docker run -d \
+      --restart=always \
+      -e MONGO_URI=$MONGO_URI \
+      -p 5002:3000 \
+      --name \$CONTAINER_NAME \
+      $DOCKER_REGISTRY:$SERVICE_VERSION
+
 EOF
 done
