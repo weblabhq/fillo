@@ -31,3 +31,7 @@ We're using ESLint with Standard config
 ```
 $ npm run lint
 ```
+
+## License
+
+MIT. Copyright (c) Cristian Guraliuc <cristi@weblab.io>
