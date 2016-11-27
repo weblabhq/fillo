@@ -4,7 +4,7 @@
 set -e
 
 SERVICE_NAME="weblab/fillo"
-DOCKER_REGISTRY="141759028186.dkr.ecr.us-east-1.amazonaws.com/$SERVICE_NAME"
+DOCKER_REGISTRY="$AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/$SERVICE_NAME"
 
 # Get Docker Registry login token
 eval "$(aws ecr get-login --region us-east-1)"
@@ -30,14 +30,16 @@ do
 eval "$(aws ecr get-login --region us-east-1)"
 # Get machine ip
 IP=`/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
+# Set container name
+CONTAINER_NAME=`fillo`
 docker pull $DOCKER_REGISTRY:$SERVICE_VERSION
-docker stop $SERVICE_NAME
-docker rm -f $SERVICE_NAME
+docker stop \$CONTAINER_NAME
+docker rm -f
 docker run -d \
   --restart=always \
   -e MONGO_URI=$MONGO_URI \
   -p 5002:3000 \
-  --name $SERVICE_NAME \
+  --name \$CONTAINER_NAME \
   -e DOCKER_HOST=tcp://\$IP:4000 \
   $DOCKER_REGISTRY:$SERVICE_VERSION
 EOF
