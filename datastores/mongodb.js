@@ -12,7 +12,7 @@ mongoose.set('debug', true)
 const connect = () => {
   // Connect
   mongoose
-    .connect(process.env.MONGODB_URI)
+    .connect(process.env.MONGO_URI)
     .catch(err => log.error(err))
 
   const db = mongoose.connection
