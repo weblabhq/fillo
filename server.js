@@ -24,6 +24,7 @@ const db = mongo.connect()
 // Expose DB connection
 app.use((req, res, next) => {
   req.db = db
+  log.info(req.url)
   next()
 })
 // Graphql
