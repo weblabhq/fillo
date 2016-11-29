@@ -27,12 +27,13 @@ docker push $DOCKER_REGISTRY:$SERVICE_VERSION
 # Remove cached hosts file
 rm -f production
 touch production
+echo "[weblab-managers]" > production
 
 # Extract deployment servers
 IFS=':'; servers=($SERVERS)
 for server in "${servers[@]}"
 do
-  echo "$server\n" > production
+  echo "$server" > production
 done
 
 cat production
