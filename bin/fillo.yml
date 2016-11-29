@@ -1,0 +1,27 @@
+# weblab/fillo
+---
+- hosts: weblab-managers
+  gather_facts: no
+  user: ec2-user
+  vars:
+    image: "{{ lookup('env','AWS_ACCOUNT_ID') }}".dkr.ecr.us-east-1.amazonaws.com/weblab/fillo:"{{ lookup('env','SERVICE_VERSION') }}"
+    MONGO_URI: "{{ lookup('env','MONGO_URI') }}"
+
+  tasks:
+  - name: Get AWS ECR login token
+    shell: eval $(aws ecr get-login --region us-east-1)
+
+  - name: Get Fillo image
+    command: docker pull {{ image }}
+
+  - name: Redeploy container
+    docker_container:
+      name: fillo
+      image: "{{ image }}"
+      state: started
+      ignore_image: True
+      ports: "5002:3000"
+      restart: yes
+      restart_policy: always
+      env:
+        MONGO_URI: "{{ MONGO_URI }}"

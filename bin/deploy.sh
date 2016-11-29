@@ -12,6 +12,9 @@ eval "$(aws ecr get-login --region us-east-1)"
 # Get new version
 SERVICE_VERSION=`node -e 'console.log(require("./package.json").version)'`
 
+# Export version
+export SERVICE_VERSION=$SERVICE_VERSION
+
 # Build docker image
 docker build -t $SERVICE_NAME .
 
@@ -21,25 +24,18 @@ docker tag $SERVICE_NAME:latest $DOCKER_REGISTRY:$SERVICE_VERSION
 # Push to new tag to private Docker Registry
 docker push $DOCKER_REGISTRY:$SERVICE_VERSION
 
-# Deploy to servers
+# Remove cached hosts file
+rm -f production
+touch production
+
+# Extract deployment servers
 IFS=':'; servers=($SERVERS)
 for server in "${servers[@]}"
 do
-  ssh ec2-user@$server << EOF
-
-    # Get AWS ECR login token
-    eval "\$(aws ecr get-login --region us-east-1)"
-    # Set container name
-    CONTAINER_NAME=fillo
-    docker pull $DOCKER_REGISTRY:$SERVICE_VERSION
-    docker stop \$CONTAINER_NAME
-    docker rm -f \$CONTAINER_NAME
-    docker run -d \
-      --restart=always \
-      -e MONGO_URI=$MONGO_URI \
-      -p 5002:3000 \
-      --name \$CONTAINER_NAME \
-      $DOCKER_REGISTRY:$SERVICE_VERSION
-
-EOF
+  echo "$server\n" > production
 done
+
+cat production
+
+# Deploy to servers
+ansible-playbook -i production bin/fillo.yml
