@@ -25,18 +25,11 @@ docker tag $SERVICE_NAME:latest $DOCKER_REGISTRY:$SERVICE_VERSION
 docker push $DOCKER_REGISTRY:$SERVICE_VERSION
 
 # Remove cached hosts file
-rm -f production
-touch production
-echo "[weblab-managers]" >> production
+rm -f hosts
 
-# Extract deployment servers
+# Extract deployment servers and create Ansible hosts file
 IFS=':'; servers=($SERVERS)
-for server in "${servers[@]}"
-do
-  echo "$server" >> production
-done
-
-cat production
+for server in "${servers[@]}" do echo "$server" >> hosts done
 
 # Deploy to servers
-ansible-playbook -i production bin/fillo.yml
+ansible-playbook -i hosts bin/deploy-playbook.yml

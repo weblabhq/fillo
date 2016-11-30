@@ -1,8 +1,8 @@
 # weblab/fillo
 ---
-- hosts: weblab-managers
+- hosts: all
   gather_facts: no
-  user: ec2-user
+  user: "{{ DEPLOY_USER }}"
   vars:
     image: "{{ lookup('env','AWS_ACCOUNT_ID') }}.dkr.ecr.us-east-1.amazonaws.com/weblab/fillo:{{ lookup('env','SERVICE_VERSION') }}"
     MONGO_URI: "{{ lookup('env','MONGO_URI') }}"
