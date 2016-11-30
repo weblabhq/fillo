@@ -29,7 +29,10 @@ rm -f hosts
 
 # Extract deployment servers and create Ansible hosts file
 IFS=':'; servers=($SERVERS)
-for server in "${servers[@]}" do echo "$server" >> hosts done
+for server in "${servers[@]}"
+do
+  echo "$server" >> hosts
+done
 
 # Deploy to servers
 ansible-playbook -i hosts bin/deploy-playbook.yml
