@@ -2,7 +2,7 @@
 ---
 - hosts: all
   gather_facts: no
-  user: "{{ DEPLOY_USER }}"
+  user: "{{ lookup('env','DEPLOY_USER') }}"
   vars:
     image: "{{ lookup('env','AWS_ACCOUNT_ID') }}.dkr.ecr.us-east-1.amazonaws.com/weblab/fillo:{{ lookup('env','SERVICE_VERSION') }}"
     MONGO_URI: "{{ lookup('env','MONGO_URI') }}"
