@@ -8,23 +8,23 @@ require('dotenv').config({
 
 // Deendecies
 const express = require('express')
-const pino = require('pino')
 const graphqlHTTP = require('express-graphql')
+const log = require('./logger')
 const schema = require('./graphql/schema')
 const mongo = require('./datastores/mongodb')
+const redis = require('./datastores/redis')
 
 // Configs
 const PORT = process.env.PORT || 3000
 
 // Initializers
-const log = pino()
 const app = express()
 const db = mongo.connect()
 
 // Expose DB connection
 app.use((req, res, next) => {
   req.db = db
-  log.info(req.url)
+  req.cache = redis
   next()
 })
 // Graphql
