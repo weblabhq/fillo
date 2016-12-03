@@ -13,6 +13,7 @@ const log = require('./logger')
 const schema = require('./graphql/schema')
 const mongo = require('./datastores/mongodb')
 const redis = require('./datastores/redis')
+const loaders = require('./loaders')
 
 // Configs
 const PORT = process.env.PORT || 3000
@@ -25,6 +26,7 @@ const db = mongo.connect()
 app.use((req, res, next) => {
   req.db = db
   req.cache = redis
+  req.loaders = loaders
   next()
 })
 // Graphql
