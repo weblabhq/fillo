@@ -1,9 +1,14 @@
 const UserModel = require('../models/user.model')
 
-const byId = (id) => UserModel.find({ id })
-const byUsername = (username) => UserModel.find({ username })
+/**
+ * Find users
+ */
+const find = (filters = {}, options = {}) => UserModel
+  .find(filters)
+  .limit(options.limit || 20)
+  .skip(options.offset || 0)
+  .sort(options.sort || '-created')
 
 module.exports = {
-  byId,
-  byUsername
+  find
 }

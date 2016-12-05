@@ -8,7 +8,7 @@ const config = require('../config')
 
 // Set promise library
 mongoose.Promise = global.Promise
-mongoose.set('debug', true)
+mongoose.set('debug', process.env.NODE_ENV === 'development')
 
 const connect = () => {
   // Connect

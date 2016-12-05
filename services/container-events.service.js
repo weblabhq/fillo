@@ -1,9 +1,14 @@
 const ContainerEventModel = require('../models/container-event.model')
 
-const byId = (id) => ContainerEventModel.find({ id })
-const byUsername = (username) => ContainerEventModel.find({ username })
+/**
+ * Find container events
+ */
+const find = (filters = {}, options = {}) => ContainerEventModel
+  .find(filters)
+  .limit(options.limit || 20)
+  .skip(options.offset || 0)
+  .sort(options.sort || '-created')
 
 module.exports = {
-  byId,
-  byUsername
+  find
 }
