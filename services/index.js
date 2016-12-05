@@ -1,4 +1,6 @@
-module.exports = {
-  containerEvents: require('./container-events.service'),
-  users: require('./users.service')
-}
+const load = require('../lib/utilities').load
+
+module.exports = load({
+  dir: __dirname,
+  extension: '.service.js'
+})

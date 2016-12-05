@@ -37,7 +37,10 @@ module.exports = new gql.GraphQLObjectType({
         type: new gql.GraphQLList(require('./container-event.type')),
         description: 'Get the list of container events for the user',
         args: paginatedAndSortable({ limit: 5 }),
-        resolve: (root, args, ctx) => containerEventsService.find({ username: root.username }, args)
+        resolve: (root, args, ctx) => ctx.loaders.containerEvents.byUsername.load([
+          root.username,
+          JSON.stringify(args)
+        ])
       },
       created: {
         type: gql.GraphQLString,

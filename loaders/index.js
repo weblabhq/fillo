@@ -1,14 +1,20 @@
 const DataLoader = require('dataloader')
-const ContainerEventService = require('../services/container-events.service')
-const UserService = require('../services/users.service')
+const services = require('../services')
 
 module.exports = () => ({
   users: {
-    byId: new DataLoader(keys => UserService.find({ id: { $in: keys } })),
-    byUsername: new DataLoader(keys => UserService.find({ username: { $in: keys } }))
+    byId: new DataLoader(keys => services.Users.find({ id: { $in: keys } })),
+    byUsername: new DataLoader(keys => services.Users.find({ username: { $in: keys } }))
   },
   containerEvents: {
-    byId: new DataLoader(keys => ContainerEventService.find({ id: { $in: keys } })),
-    byUsername: new DataLoader(keys => ContainerEventService.find({ username: { $in: keys } }))
+    byId: new DataLoader(keys => services.ContainerEvents.find({ id: { $in: keys } })),
+    byUsername: new DataLoader(keys => {
+      const reqs = keys.map(k => services
+        .ContainerEvents
+        .find({ username: k[0] }, JSON.parse(k[1] || '{}'))
+      )
+
+      return Promise.all(reqs)
+    })
   }
 })
