@@ -10,7 +10,9 @@ DOCKER_REGISTRY="$AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/$SERVICE_NAME"
 eval "$(aws ecr get-login --region us-east-1)"
 
 # Get new version
+GIT_COMMIT_HASH=`git rev-parse --short HEAD`
 SERVICE_VERSION=`node -e 'console.log(require("./package.json").version)'`
+SERVICE_VERSION="$SERVICE_VERSION-$GIT_COMMIT_HASH"
 
 # Export version
 export SERVICE_VERSION=$SERVICE_VERSION
