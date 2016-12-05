@@ -15,6 +15,7 @@ const mongo = require('./datastores/mongodb')
 const redis = require('./datastores/redis')
 const loaders = require('./loaders')
 const models = require('./models')
+const auth = require('./lib/auth/auth')
 
 // Configs
 const PORT = process.env.PORT || 3000
@@ -28,14 +29,36 @@ app.use((req, res, next) => {
   req.db = db
   req.cache = redis
   req.models = models
+  req.log = log
   req.loaders = loaders()
   next()
 })
+
+// Allow only authenticated requests
+app.use(auth)
+
 // Graphql
 app.use('/graph/v1', graphqlHTTP({
   schema,
   graphiql: true
 }))
+
+// Handle errors and log them
+app.use((err, req, res, next) => {
+  req.log.error(err)
+
+  if (err.code) {
+    return res.status(err.code).json({
+      errors: [{
+        name: err.name,
+        message: err.message,
+        code: err.code
+      }]
+    })
+  }
+
+  return next(err)
+})
 
 // Start app
 app.listen(PORT, () => {
