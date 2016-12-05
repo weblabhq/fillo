@@ -31,6 +31,7 @@
     "express": "4.14.0",
     "express-graphql": "0.6.1",
     "graphql": "0.8.2",
+    "jsonwebtoken": "7.1.9",
     "mongoose": "4.6.8",
     "pino": "3.0.1",
     "redis": "2.6.3"
