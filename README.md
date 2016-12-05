@@ -32,6 +32,21 @@ We're using [ESLint](http://eslint.org/) with [Standard](https://github.com/fero
 $ npm run lint
 ```
 
+### Git Hooks
+
+You can use a **pre-push** hook to run tests before every push. If tests are failing the push will not take place.
+To install it just run in the **project root directory**:
+
+```
+$ ./tools/hooks/install.sh
+```
+
+If you want to skip the tests when you make a push just use the `--no-verify` flag. Example:
+
+```
+$ git push --no-verify <remote> <branch>
+```
+
 ## License
 
 MIT. Copyright (c) Cristian Guraliuc <cristi@weblab.io>
