@@ -3,23 +3,14 @@
  */
 
 const gql = require('graphql')
-const ContainerEventType = require('../types/container-event.type')
-const ContainerEventModel = require('../../models/container-event.model')
 const paginatedAndSortable = require('./common/args').paginatedAndSortable
+const containerEventsService = require('../../services/container-events.service')
 
-const query = {
-  type: new gql.GraphQLList(ContainerEventType),
+const query = () => ({
+  type: new gql.GraphQLList(require('../types/container-event.type')),
   description: 'Get a list of container events',
   args: paginatedAndSortable(),
-  resolve: (root, args, context) => {
-    const { offset, limit, sort } = args
-
-    return ContainerEventModel
-      .find({})
-      .limit(limit)
-      .skip(offset)
-      .sort(sort)
-  }
-}
+  resolve: (root, args, ctx) => containerEventsService.find({}, args)
+})
 
 module.exports = query

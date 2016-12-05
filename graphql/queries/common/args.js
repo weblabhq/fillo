@@ -5,20 +5,22 @@
 const gql = require('graphql')
 
 const sortable = ({
-  defaultSortValue = '-created'
+  sort = '-created'
 } = {}) => ({
   sort: {
-    description: 'The sorting field',
+    description: `The sorting field and direction. Default is '\`${sort}\`'`,
     type: gql.GraphQLString,
-    defaultValue: defaultSortValue
+    defaultValue: sort
   }
 })
 
-const paginated = () => ({
+const paginated = ({
+  limit = 20
+}) => ({
   limit: {
-    description: 'The max items to retrive in list',
+    description: `The max items to retrive in list. Default is '\`${limit}\`'`,
     type: gql.GraphQLInt,
-    defaultValue: 20
+    defaultValue: limit
   },
   offset: {
     description: 'The offset of the list',
@@ -28,8 +30,9 @@ const paginated = () => ({
 })
 
 const paginatedAndSortable = ({
-  defaultSortValue
-} = {}) => Object.assign({}, paginated(), sortable({ defaultSortValue }))
+  sort,
+  limit
+} = {}) => Object.assign({}, paginated({ limit }), sortable({ sort }))
 
 module.exports = {
   paginated,

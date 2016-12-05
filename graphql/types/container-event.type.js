@@ -4,7 +4,6 @@
 
 const gql = require('graphql')
 const UserType = require('./user.type')
-const UserModel = require('../../models/user.model')
 
 module.exports = new gql.GraphQLObjectType({
   name: 'ContainerEvent',
@@ -48,7 +47,7 @@ module.exports = new gql.GraphQLObjectType({
       user: {
         type: UserType,
         description: 'Get the owner user of the container that generated the event',
-        resolve: (root, args, context) => UserModel.findOne({ username: root.username })
+        resolve: (root, args, ctx) => ctx.loaders.users.byUsername.load(root.username)
       }
     }
   }

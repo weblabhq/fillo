@@ -3,7 +3,8 @@
  */
 
 const gql = require('graphql')
-const PlanType = require('./plan.type')
+const types = require('./index')
+const paginatedAndSortable = require('../queries/common/args').paginatedAndSortable
 
 module.exports = new gql.GraphQLObjectType({
   name: 'User',
@@ -23,13 +24,22 @@ module.exports = new gql.GraphQLObjectType({
         description: 'The email of the user'
       },
       plan: {
-        type: PlanType,
+        type: types.Plan,
         description: 'The user\'s current plan'
       },
       active: {
         type: gql.GraphQLBoolean,
         defaultValue: false,
         description: 'Flag signaling if the user is activated or not'
+      },
+      containerEvents: {
+        type: new gql.GraphQLList(require('./container-event.type')),
+        description: 'Get the list of container events for the user',
+        args: paginatedAndSortable({ limit: 5 }),
+        resolve: (root, args, ctx) => ctx.loaders.containerEvents.byUsername.load([
+          root.username,
+          JSON.stringify(args)
+        ])
       },
       created: {
         type: gql.GraphQLString,

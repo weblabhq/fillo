@@ -3,16 +3,17 @@
  */
 
 const mongoose = require('mongoose')
-const log = require('pino')()
+const log = require('../logger')
+const config = require('../config')
 
 // Set promise library
 mongoose.Promise = global.Promise
-mongoose.set('debug', true)
+mongoose.set('debug', process.env.NODE_ENV === 'development')
 
 const connect = () => {
   // Connect
   mongoose
-    .connect(process.env.MONGO_URI)
+    .connect(config.MONGO_URI)
     .catch(err => log.error(err))
 
   const db = mongoose.connection
