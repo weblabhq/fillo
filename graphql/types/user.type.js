@@ -5,7 +5,6 @@
 const gql = require('graphql')
 const types = require('./index')
 const paginatedAndSortable = require('../queries/common/args').paginatedAndSortable
-const containerEventsService = require('../../services/container-events.service')
 
 module.exports = new gql.GraphQLObjectType({
   name: 'User',
