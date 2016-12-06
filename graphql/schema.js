@@ -7,8 +7,8 @@ const queries = require('./queries')
 
 const schema = new gql.GraphQLSchema({
   query: new gql.GraphQLObjectType({
-    name: 'RootQuery',
-    description: 'The root query description',
+    name: 'Query',
+    description: 'The Weblab Root query',
     fields: () => ({
       user: queries.User,
       users: queries.Users,

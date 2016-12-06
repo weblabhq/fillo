@@ -1,3 +1,7 @@
+/**
+ * @module datastores/redis.js
+ */
+
 const redis = require('redis')
 const config = require('../config')
 const log = require('../logger')
