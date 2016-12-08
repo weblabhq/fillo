@@ -1,5 +1,5 @@
 /**
- * @module connectors/mongodb.js
+ * @module datastores/mongodb.js
  */
 
 const mongoose = require('mongoose')
@@ -8,6 +8,7 @@ const config = require('../config')
 
 // Set promise library
 mongoose.Promise = global.Promise
+// Enable query debug on non prod environments
 mongoose.set('debug', process.env.NODE_ENV === 'development')
 
 const connect = () => {

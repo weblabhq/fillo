@@ -47,12 +47,12 @@ app.use('/graph/v1', graphqlHTTP({
 app.use((err, req, res, next) => {
   req.log.error(err)
 
-  if (err.code) {
-    return res.status(err.code).json({
+  if (err.statusCode) {
+    return res.status(err.statusCode).json({
       errors: [{
         name: err.name,
         message: err.message,
-        code: err.code
+        code: err.statusCode
       }]
     })
   }
