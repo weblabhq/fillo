@@ -4,4 +4,6 @@
  * Logger module powered by Pino
  */
 
-module.exports = require('pino')({ name: 'fillo' })
+module.exports = process.env.NODE_ENV !== 'test'
+  ? require('pino')({ name: 'fillo' })
+  : console

@@ -3,7 +3,7 @@
  */
 
 require('dotenv').config({
-  silent: process.env.NODE_ENV === 'production'
+  silent: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test'
 })
 
 // Deendecies
@@ -12,7 +12,7 @@ const graphqlHTTP = require('express-graphql')
 const log = require('./logger')
 const schema = require('./graphql/schema')
 const mongo = require('./datastores/mongodb')
-const redis = require('./datastores/redis')
+// const redis = require('./datastores/redis')
 const loaders = require('./loaders')
 const models = require('./models')
 const auth = require('./lib/auth/auth')
@@ -27,7 +27,7 @@ const db = mongo.connect()
 // Expose DB connection
 app.use((req, res, next) => {
   req.db = db
-  req.cache = redis
+  // req.cache = redis
   req.models = models
   req.log = log
   req.loaders = loaders()
@@ -45,8 +45,6 @@ app.use('/graph/v1', graphqlHTTP({
 
 // Handle errors and log them
 app.use((err, req, res, next) => {
-  req.log.error(err)
-
   if (err.statusCode) {
     return res.status(err.statusCode).json({
       errors: [{
@@ -55,6 +53,8 @@ app.use((err, req, res, next) => {
         code: err.statusCode
       }]
     })
+  } else {
+    req.log.error(err)
   }
 
   return next(err)
@@ -64,3 +64,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   log.info('Server started on port', PORT)
 })
+
+module.exports = app
