@@ -7,7 +7,18 @@ module.exports = () => new Promise((resolve, reject) => {
     throw new Error('Not a test database!')
   }
 
-  mongo.getConnection().collections.users.drop((err) => {
-    err ? reject(err) : resolve()
-  })
+  connection.db
+    .listCollections({ name: 'users' })
+    .next((err, collinfo) => {
+      if (err) return reject(err)
+
+      if (collinfo) {
+        // The collection exists
+        return connection.collections.users.drop((err) => {
+          err ? reject(err) : resolve()
+        })
+      }
+
+      return resolve()
+    })
 })
