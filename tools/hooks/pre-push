@@ -1,2 +1,2 @@
 # Run tests
-npm run unit
+npm run integration
