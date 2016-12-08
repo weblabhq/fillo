@@ -18,6 +18,7 @@ test:
         environment:
           NODE_ENV: test
           MOCHA_FILE: $CIRCLE_TEST_REPORTS/junit/test-results.xml
+          JWT_SECRET: supersecret
 
 deployment:
   production:

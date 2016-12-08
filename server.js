@@ -3,7 +3,7 @@
  */
 
 require('dotenv').config({
-  silent: process.env.NODE_ENV === 'production'
+  silent: process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'test'
 })
 
 // Deendecies
