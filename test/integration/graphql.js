@@ -5,7 +5,6 @@ const app = require('../../server')
 const token = require('../utils/token')
 const init = require('../utils/init')
 
-
 // Wait for server to start
 before(() => init)
 
