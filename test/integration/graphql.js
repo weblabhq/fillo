@@ -1,4 +1,4 @@
-const assert = require('assert')
+const expect = require('expect.js')
 const supertest = require('supertest')
 
 const app = require('../../server')
@@ -6,7 +6,7 @@ const token = require('../utils/token')
 const init = require('../utils/init')
 
 // Wait for server to start
-before(() => init)
+before(() => init())
 
 describe('GraphQL', () => {
   describe('/graph/v1', () => {
@@ -25,7 +25,7 @@ describe('GraphQL', () => {
         .send({ query: '{ users { id } }' })
         .expect(200)
         .end((err, res) => {
-          assert(res.body.data.users.length !== 0, 'Should find users')
+          expect(res.body.data.users.length).to.be.greaterThan(0)
           done(err)
         })
     })

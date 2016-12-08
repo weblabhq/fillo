@@ -20,9 +20,10 @@ const connect = () => {
     .catch(err => log.error(err))
 
   db = mongoose.connection
+  const url = `${db.host}:${db.port}/${db.db.databaseName}`
 
   db.on('error', (err) => log.error('[MONGO]', err))
-  db.once('open', () => log.info('[MONGO] Connected'))
+  db.once('open', () => log.info(`[MONGO] Connected to ${url}`))
 
   return db
 }

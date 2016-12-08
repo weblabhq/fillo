@@ -30,7 +30,7 @@ docker push $DOCKER_REGISTRY:$SERVICE_VERSION
 rm -f hosts
 
 # Extract deployment servers and create Ansible hosts file
-IFS=':'; servers=($SERVERS)
+IFS=':'; servers=($DEPLOY_SERVERS)
 for server in "${servers[@]}"
 do
   echo "$server" >> hosts

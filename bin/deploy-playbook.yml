@@ -5,9 +5,9 @@
   user: "{{ lookup('env','DEPLOY_USER') }}"
   vars:
     image: "{{ lookup('env','AWS_ACCOUNT_ID') }}.dkr.ecr.us-east-1.amazonaws.com/weblab/fillo:{{ lookup('env','SERVICE_VERSION') }}"
-    MONGO_URI: "{{ lookup('env','MONGO_URI') }}"
-    REDIS_URL: "{{ lookup('env','REDIS_URL') }}"
-    JWT_SECRET: "{{ lookup('env','JWT_SECRET') }}"
+    MONGO_URI: "{{ lookup('env','DEPLOY_MONGO_URI') }}"
+    REDIS_URL: "{{ lookup('env','DEPLOY_REDIS_URL') }}"
+    JWT_SECRET: "{{ lookup('env','DEPLOY_JWT_SECRET') }}"
 
   tasks:
   - name: Get AWS ECR login token
