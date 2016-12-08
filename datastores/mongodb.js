@@ -11,13 +11,15 @@ mongoose.Promise = global.Promise
 // Enable query debug on non prod environments
 mongoose.set('debug', process.env.NODE_ENV === 'development')
 
+let db
+
 const connect = () => {
   // Connect
   mongoose
     .connect(config.MONGO_URI)
     .catch(err => log.error(err))
 
-  const db = mongoose.connection
+  db = mongoose.connection
 
   db.on('error', (err) => log.error('[MONGO]', err))
   db.once('open', () => log.info('[MONGO] Connected'))
@@ -25,6 +27,9 @@ const connect = () => {
   return db
 }
 
+const getConnection = () => db
+
 module.exports = {
-  connect
+  connect,
+  getConnection
 }

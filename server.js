@@ -45,8 +45,6 @@ app.use('/graph/v1', graphqlHTTP({
 
 // Handle errors and log them
 app.use((err, req, res, next) => {
-  req.log.error(err)
-
   if (err.statusCode) {
     return res.status(err.statusCode).json({
       errors: [{
@@ -55,6 +53,8 @@ app.use((err, req, res, next) => {
         code: err.statusCode
       }]
     })
+  } else {
+    req.log.error(err)
   }
 
   return next(err)
@@ -64,3 +64,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   log.info('Server started on port', PORT)
 })
+
+module.exports = app
