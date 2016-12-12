@@ -15,13 +15,14 @@ SERVICE_VERSION=`node -e 'console.log(require("./package.json").version)'`
 SERVICE_VERSION="$SERVICE_VERSION-$GIT_COMMIT_HASH"
 
 # Export version
+export SERVICE_NAME=$SERVICE_NAME
 export SERVICE_VERSION=$SERVICE_VERSION
 
 # Build docker image
-docker build -t $SERVICE_NAME .
+docker build -t $SERVICE_NAME:$SERVICE_VERSION .
 
 # Tag docker container
-docker tag $SERVICE_NAME:latest $DOCKER_REGISTRY:$SERVICE_VERSION
+docker tag $SERVICE_NAME:$SERVICE_VERSION $DOCKER_REGISTRY:$SERVICE_VERSION
 
 # Push to new tag to private Docker Registry
 docker push $DOCKER_REGISTRY:$SERVICE_VERSION

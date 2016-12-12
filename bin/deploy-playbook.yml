@@ -4,7 +4,9 @@
   gather_facts: no
   user: "{{ lookup('env','DEPLOY_USER') }}"
   vars:
-    image: "{{ lookup('env','AWS_ACCOUNT_ID') }}.dkr.ecr.us-east-1.amazonaws.com/weblab/fillo:{{ lookup('env','SERVICE_VERSION') }}"
+    SERVICE_NAME: "{{ lookup('env','SERVICE_NAME') }}"
+    SERVICE_VERSION: "{{ lookup('env','SERVICE_VERSION') }}"
+    IMAGE: "{{ lookup('env','AWS_ACCOUNT_ID') }}.dkr.ecr.us-east-1.amazonaws.com/{{ SERVICE_NAME }}:{{ SERVICE_VERSION }}"
     MONGO_URI: "{{ lookup('env','DEPLOY_MONGO_URI') }}"
     REDIS_URL: "{{ lookup('env','DEPLOY_REDIS_URL') }}"
     JWT_SECRET: "{{ lookup('env','DEPLOY_JWT_SECRET') }}"
@@ -14,12 +16,12 @@
     shell: eval $(aws ecr get-login --region us-east-1)
 
   - name: Get Fillo image
-    command: docker pull {{ image }}
+    command: docker pull {{ IMAGE }}
 
   - name: Redeploy container
     docker_container:
       name: fillo
-      image: "{{ image }}"
+      image: "{{ IMAGE }}"
       state: started
       ignore_image: True
       ports: "5002:3000"
@@ -29,3 +31,6 @@
         MONGO_URI: "{{ MONGO_URI }}"
         REDIS_URL: "{{ REDIS_URL }}"
         JWT_SECRET: "{{ JWT_SECRET }}"
+
+  - name: Image cleanup
+    shell: docker images -a | grep {{ SERVICE_NAME }} | grep -v {{ SERVICE_VERSION }} | awk '{ print \$3 }' | xargs -r docker rmi
