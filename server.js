@@ -9,6 +9,7 @@ require('dotenv').config({
 // Deendecies
 const express = require('express')
 const graphqlHTTP = require('express-graphql')
+const cors = require('cors')
 const log = require('./logger')
 const schema = require('./graphql/schema')
 const mongo = require('./datastores/mongodb')
@@ -23,6 +24,8 @@ const PORT = process.env.PORT || 3000
 // Initializers
 const app = express()
 const db = mongo.connect()
+
+app.use(cors())
 
 // Expose DB connection
 app.use((req, res, next) => {
